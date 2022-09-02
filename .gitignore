@@ -1,0 +1,11 @@
+/src/MyTemplate.Web/Logs
+/src/MyTemplate.Web/obj
+/src/MyTemplate.Web/bin
+/src/MyTemplate.SharedKernel/bin
+/.vscode
+/src/MyTemplate.SharedKernel/obj
+/src/MyTemplate.Infrastructure/bin
+/src/MyTemplate.Infrastructure/obj
+/src/MyTemplate.Core/bin
+/src/MyTemplate.Core/obj
+/.idea
