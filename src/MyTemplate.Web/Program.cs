@@ -137,11 +137,6 @@ builder.Services.Configure<FileStorageOptions>(options =>
 
 var app = builder.Build();
 
-app.UseForwardedHeaders(new ForwardedHeadersOptions()
-{
-  ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-});
-
 app.UseCors(
   options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
 );
@@ -161,7 +156,7 @@ app.UseMiddleware<LoggingMiddleware>();
 
 app.UseRouting();
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCookiePolicy();
 
