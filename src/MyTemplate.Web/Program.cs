@@ -22,6 +22,9 @@ using MyTemplate.Web.Security.Token.Providers;
 using MyTemplate.Web.Security.Token.Interfaces;
 using MyTemplate.Core.Security.Interfaces;
 using MyTemplate.Web.Security.Providers;
+using Microsoft.AspNetCore.HttpOverrides;
+using MyTemplate.Web.Security.Authentication;
+using MyTemplate.Core.Security.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 #region logging
@@ -74,11 +77,13 @@ builder
     ValidAudience = builder.Configuration["JWT:Audience"],
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secrets"]))
   };
+  options.TokenValidationParameters.RoleClaimType = nameof(ClaimsTypes.Roles);
 });
 
 
 builder.Services.AddScoped(typeof(IClaimsProvider<>), typeof(ClaimsProvider<>));
 builder.Services.AddScoped(typeof(IJwtProvider), typeof(JwtProvider));
+builder.Services.AddScoped(typeof(IAuthenticator<>), typeof(Authenticator<>));
 #endregion
 
 #region authorization
@@ -132,6 +137,11 @@ builder.Services.Configure<FileStorageOptions>(options =>
 
 var app = builder.Build();
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions()
+{
+  ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
 app.UseCors(
   options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
 );
@@ -151,7 +161,7 @@ app.UseMiddleware<LoggingMiddleware>();
 
 app.UseRouting();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCookiePolicy();
 
@@ -159,7 +169,7 @@ app.UseCookiePolicy();
 app.UseSwagger();
 
 // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-app.UseSwaggerUI(c => 
+app.UseSwaggerUI(c =>
 {
   c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyTemplate V1");
   c.DocumentTitle = "MyTemplate";

@@ -19,7 +19,7 @@ public class ClaimsProvider<TUser> : IClaimsProvider<TUser> where TUser : User
   {
     var userClaims = await _userManager.GetClaimsAsync(user);
     var roles = await _userManager.GetRolesAsync(user);
-    var roleClaims = roles.Select(role => new Claim(nameof(ClaimsTypes.Role), role));
+    var roleClaims = roles.Select(role => new Claim(nameof(ClaimsTypes.Roles), role));
 
     var idClaim = new Claim(nameof(ClaimsTypes.UserId), user.Id.ToString());
 
