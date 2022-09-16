@@ -137,10 +137,6 @@ builder.Services.Configure<FileStorageOptions>(options =>
 
 var app = builder.Build();
 
-app.UseCors(
-  options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
-);
-
 if (app.Environment.IsDevelopment())
 {
   app.UseDeveloperExceptionPage();
@@ -154,10 +150,14 @@ else
 app.UseMiddleware<ValidationMiddleware>();
 app.UseMiddleware<LoggingMiddleware>();
 
-app.UseRouting();
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseRouting();
+
+app.UseCors(
+  options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+);
+
 app.UseCookiePolicy();
 
 // Enable middleware to serve generated Swagger as a JSON endpoint.
