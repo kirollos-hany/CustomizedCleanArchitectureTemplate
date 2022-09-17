@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using MyTemplate.Core.Persistence.Interfaces;
-namespace MyTemplate.Core.Security.Entities;
+namespace MyTemplate.Web.Security.Entities;
 
+[Table("Users")]
 public class User : IdentityUser<Guid>, IAggregateRoot
 {
   public User()

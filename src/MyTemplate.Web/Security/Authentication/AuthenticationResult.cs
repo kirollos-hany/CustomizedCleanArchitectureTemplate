@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using MyTemplate.Core.Security.Interfaces;
+using MyTemplate.Web.Security.Interfaces;
 
 namespace MyTemplate.Web.Security.Authentication;
 

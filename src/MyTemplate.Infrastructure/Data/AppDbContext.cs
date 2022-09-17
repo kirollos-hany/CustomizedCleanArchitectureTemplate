@@ -1,20 +1,11 @@
 ﻿using System.Reflection;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyTemplate.Core.Security.Entities;
 
 namespace MyTemplate.Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<User,
-                                              Role,
-                                              Guid,
-                                              UserClaim,
-                                              UserRole,
-                                              UserLogin,
-                                              RoleClaim,
-                                              UserToken>
+public class AppDbContext : DbContext
 {
-  public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+  public AppDbContext(DbContextOptions<AppDbContext> options)
       : base(options)
   {
   }

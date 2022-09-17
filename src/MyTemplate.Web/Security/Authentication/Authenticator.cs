@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
-using MyTemplate.Core.Security.Entities;
-using MyTemplate.Core.Security.Interfaces;
+using MyTemplate.Web.Security.Entities;
+using MyTemplate.Web.Security.Interfaces;
 
 namespace MyTemplate.Web.Security.Authentication;
 

@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace MyTemplate.Core.Security.Interfaces;
+namespace MyTemplate.Web.Security.Interfaces;
 
 public interface IClaimsProvider<T>
 {

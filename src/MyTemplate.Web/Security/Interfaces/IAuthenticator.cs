@@ -1,6 +1,6 @@
-using MyTemplate.Core.Security.Entities;
+using MyTemplate.Web.Security.Entities;
 
-namespace MyTemplate.Core.Security.Interfaces;
+namespace MyTemplate.Web.Security.Interfaces;
 
 public interface IAuthenticator<TUser> where TUser : User
 {

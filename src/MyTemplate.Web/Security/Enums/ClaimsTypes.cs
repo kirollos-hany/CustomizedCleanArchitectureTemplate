@@ -1,4 +1,4 @@
-namespace MyTemplate.Core.Security.Enums;
+namespace MyTemplate.Web.Security.Enums;
 
 public enum ClaimsTypes
 {

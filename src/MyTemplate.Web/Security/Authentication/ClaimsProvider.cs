@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using MyTemplate.Core.Security.Entities;
-using MyTemplate.Core.Security.Enums;
-using MyTemplate.Core.Security.Interfaces;
+using MyTemplate.Web.Security.Entities;
+using MyTemplate.Web.Security.Enums;
+using MyTemplate.Web.Security.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace MyTemplate.Web.Security.Providers;

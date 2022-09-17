@@ -2,14 +2,6 @@
 using Ardalis.ListStartupServices;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using MyTemplate.Core;
-using MyTemplate.Core.Security.Entities;
-using MyTemplate.Web.Security.Token.Configuration;
-using MyTemplate.Infrastructure;
-using MyTemplate.Infrastructure.Data;
-using MyTemplate.Web.Extensions;
-using MyTemplate.Web.Filters;
-using MyTemplate.Web.Middlewares;
 using ExtCore.FileStorage;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,14 +9,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Serilog;
-using MyTemplate.Web.Security.Token.Providers;
-using MyTemplate.Web.Security.Token.Interfaces;
-using MyTemplate.Core.Security.Interfaces;
-using MyTemplate.Web.Security.Providers;
-using Microsoft.AspNetCore.HttpOverrides;
+using MyTemplate.Core;
+using MyTemplate.Infrastructure;
+using MyTemplate.Infrastructure.Data;
+using MyTemplate.Web.Extensions;
+using MyTemplate.Web.Filters;
+using MyTemplate.Web.Middlewares;
 using MyTemplate.Web.Security.Authentication;
-using MyTemplate.Core.Security.Enums;
+using MyTemplate.Web.Security.Data;
+using MyTemplate.Web.Security.Entities;
+using MyTemplate.Web.Security.Enums;
+using MyTemplate.Web.Security.Interfaces;
+using MyTemplate.Web.Security.Providers;
+using MyTemplate.Web.Security.Token.Configuration;
+using MyTemplate.Web.Security.Token.Interfaces;
+using MyTemplate.Web.Security.Token.Providers;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 #region logging
@@ -50,13 +50,13 @@ builder.Services.AddIdentity<User, Role>(options =>
   //identity configuration goes here
 })
 .AddRoles<Role>()
-.AddEntityFrameworkStores<ApplicationDbContext>();
+.AddEntityFrameworkStores<SecurityDbContext>();
 
 #endregion 
 
 #region JWT
 builder.Services.Configure<IJwtConfig>(builder.Configuration.GetSection("JWT"));
-builder.Services.AddScoped<IJwtConfig>(services => services.GetRequiredService<IOptions<IJwtConfig>>().Value);
+builder.Services.AddScoped(services => services.GetRequiredService<IOptions<IJwtConfig>>().Value);
 
 builder
 .Services
@@ -101,6 +101,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 #region ef core config
 var sqlServerConnection = builder.Configuration.GetConnectionString("SqlServer");
 builder.Services.AddDbContext(sqlServerConnection);
+builder.Services.AddDbContextPool<SecurityDbContext>(options => options.UseSqlServer(sqlServerConnection));
 #endregion
 
 builder.Services.AddMvc().AddFluentValidation(options =>
@@ -182,9 +183,9 @@ using (var scope = app.Services.CreateScope())
 
   try
   {
-    var context = services.GetRequiredService<ApplicationDbContext>();
-    context.Database.Migrate();
-    context.Database.EnsureCreated();
+    var context = services.GetRequiredService<AppDbContext>();
+    await context.Database.EnsureCreatedAsync();
+    await context.Database.MigrateAsync();
   }
   catch (Exception ex)
   {
