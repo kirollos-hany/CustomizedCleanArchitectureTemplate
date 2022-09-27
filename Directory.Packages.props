@@ -40,5 +40,6 @@
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.0.1" />
     <PackageVersion Include="Kiro.Result" Version="1.2.0"/>
     <PackageVersion Include="LanguageExt.Core" Version="4.2.9"/>
+    <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0"/>
   </ItemGroup>
 </Project>

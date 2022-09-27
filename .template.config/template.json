@@ -16,7 +16,7 @@
         {
           "modifiers": [
             {
-                "exclude": ["logging.png", ".vscode", ".vs", ".idea"]
+                "exclude": ["logging.png", ".vscode", ".vs", ".idea", ".git"]
             }
           ]
         }

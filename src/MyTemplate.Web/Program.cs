@@ -12,18 +12,15 @@ using Microsoft.OpenApi.Models;
 using MyTemplate.Core;
 using MyTemplate.Infrastructure;
 using MyTemplate.Infrastructure.Data;
+using MyTemplate.Web;
 using MyTemplate.Web.Extensions;
 using MyTemplate.Web.Filters;
 using MyTemplate.Web.Middlewares;
-using MyTemplate.Web.Security.Authentication;
 using MyTemplate.Web.Security.Data;
 using MyTemplate.Web.Security.Entities;
 using MyTemplate.Web.Security.Enums;
-using MyTemplate.Web.Security.Interfaces;
-using MyTemplate.Web.Security.Providers;
 using MyTemplate.Web.Security.Token.Configuration;
-using MyTemplate.Web.Security.Token.Interfaces;
-using MyTemplate.Web.Security.Token.Providers;
+using Newtonsoft.Json.Converters;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,8 +52,8 @@ builder.Services.AddIdentity<User, Role>(options =>
 #endregion 
 
 #region JWT
-builder.Services.Configure<IJwtConfig>(builder.Configuration.GetSection("JWT"));
-builder.Services.AddScoped(services => services.GetRequiredService<IOptions<IJwtConfig>>().Value);
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JWT"));
+builder.Services.AddScoped<IJwtConfig, JwtConfig>(services => services.GetRequiredService<IOptions<JwtConfig>>().Value);
 
 builder
 .Services
@@ -75,15 +72,12 @@ builder
     ValidateIssuerSigningKey = true,
     ValidIssuer = builder.Configuration["JWT:Issuer"],
     ValidAudience = builder.Configuration["JWT:Audience"],
-    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secrets"]))
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secrets"])),
+    RoleClaimType = nameof(ClaimsTypes.Roles)
   };
-  options.TokenValidationParameters.RoleClaimType = nameof(ClaimsTypes.Roles);
 });
 
 
-builder.Services.AddScoped(typeof(IClaimsProvider<>), typeof(ClaimsProvider<>));
-builder.Services.AddScoped(typeof(IJwtProvider), typeof(JwtProvider));
-builder.Services.AddScoped(typeof(IAuthenticator<>), typeof(Authenticator<>));
 #endregion
 
 #region authorization
@@ -110,8 +104,10 @@ builder.Services.AddMvc().AddFluentValidation(options =>
   options.ImplicitlyValidateRootCollectionElements = true;
   options.ImplicitlyValidateChildProperties = true;
   options.RegisterValidatorsFromAssemblyContaining<DefaultCoreModule>();
+  options.RegisterValidatorsFromAssemblyContaining<WebModule>();
 });
 
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new StringEnumConverter()));
 builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 builder.Services.AddRazorPages();
 
@@ -120,13 +116,24 @@ builder.Services.AddSwaggerGen(c =>
   c.OperationFilter<AuthorizeOperationFilter>();
   c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyTemplate", Version = "v1" });
   c.EnableAnnotations();
+  c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+  {
+    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+    Name = "Authorization",
+    In = ParameterLocation.Header,
+    Type = SecuritySchemeType.Http,
+    Scheme = "Bearer"
+  });
 });
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
   containerBuilder.RegisterModule(new DefaultInfrastructureModule(builder.Environment.EnvironmentName == "Development"));
   containerBuilder.RegisterModule(new DefaultCoreModule());
+  containerBuilder.RegisterModule(new WebModule());
 });
+
+builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 builder.Logging.ClearProviders().AddConsole();
 
@@ -175,23 +182,5 @@ app.UseEndpoints(endpoints =>
   endpoints.MapDefaultControllerRoute();
   endpoints.MapRazorPages();
 });
-
-#region database seed and migration
-using (var scope = app.Services.CreateScope())
-{
-  var services = scope.ServiceProvider;
-
-  try
-  {
-    var context = services.GetRequiredService<AppDbContext>();
-    await context.Database.EnsureCreatedAsync();
-    await context.Database.MigrateAsync();
-  }
-  catch (Exception ex)
-  {
-    Log.Error(ex, "An error occurred seeding/migrating the DB. {exceptionMessage}", ex.Message);
-  }
-}
-#endregion 
 
 app.Run();
