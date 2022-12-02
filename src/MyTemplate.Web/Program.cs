@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyTemplate.Application;
 using MyTemplate.Application.Interfaces.Security;
+using MyTemplate.Application.Interfaces.Web;
 using MyTemplate.Domain.Common.Entities;
 using MyTemplate.Domain.Entities.Security;
 using MyTemplate.Domain.Enums.Security;
@@ -23,6 +24,7 @@ using MyTemplate.Web.Filters;
 using MyTemplate.Web.Middlewares;
 using MyTemplate.Web.Security.Token.Configuration;
 using MyTemplate.Web.Security.Token.Providers;
+using MyTemplate.Web.Services;
 using Newtonsoft.Json.Converters;
 using Serilog;
 
@@ -106,7 +108,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<DefaultApplicationModule>()
 builder.Services.AddValidatorsFromAssemblyContaining<WebModule>();
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new StringEnumConverter()));
-builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 builder.Services.AddRazorPages();
 
 builder.Services.AddSwaggerGen(c =>
@@ -130,6 +131,8 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
   containerBuilder.RegisterModule(new DefaultApplicationModule());
   containerBuilder.RegisterModule(new WebModule());
 });
+
+builder.Services.AddScoped<IBaseUrlProvider, BaseUrlProvider>();
 
 builder.Services.AddSwaggerGenNewtonsoftSupport();
 
