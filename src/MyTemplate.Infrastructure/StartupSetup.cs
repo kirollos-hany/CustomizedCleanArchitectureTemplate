@@ -8,7 +8,7 @@ public static class StartupSetup
 {
   public static void AddDbContext(this IServiceCollection serviceCollection, string connectionString)
   {
-    serviceCollection.AddDbContextPool<AppDbContext>(options =>
+    serviceCollection.AddDbContextPool<MyTemplateDbContext>(options =>
     {
       options.UseSqlServer(connectionString, opts => opts.MigrationsAssembly("MyTemplate.Web"));
     });

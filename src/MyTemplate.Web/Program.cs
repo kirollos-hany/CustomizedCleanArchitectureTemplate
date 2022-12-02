@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyTemplate.Application;
+using MyTemplate.Application.Interfaces.Security;
 using MyTemplate.Domain.Common.Entities;
 using MyTemplate.Domain.Entities.Security;
 using MyTemplate.Domain.Enums.Security;
@@ -49,7 +50,7 @@ builder.Services.AddIdentity<User, Role>(options =>
   //identity configuration goes here
 })
 .AddRoles<Role>()
-.AddEntityFrameworkStores<AppDbContext>()
+.AddEntityFrameworkStores<MyTemplateDbContext>()
 .AddDefaultTokenProviders()
 .AddTokenProvider<JwtProvider>(nameof(LoginProviders.MyTemplate));
 

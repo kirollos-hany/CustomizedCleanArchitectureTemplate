@@ -1,3 +1,5 @@
+using MyTemplate.Application.Interfaces.Security;
+
 namespace MyTemplate.Web.Security.Token.Configuration;
 
 public class JwtConfig : IJwtConfig

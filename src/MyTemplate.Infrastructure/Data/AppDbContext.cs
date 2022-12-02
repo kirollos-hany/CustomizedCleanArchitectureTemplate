@@ -6,7 +6,7 @@ using MyTemplate.Domain.Entities.Security;
 
 namespace MyTemplate.Infrastructure.Data;
 
-public class AppDbContext : IdentityDbContext<User,
+public class MyTemplateDbContext : IdentityDbContext<User,
                                               Role,
                                               Guid,
                                               UserClaim,
@@ -15,7 +15,7 @@ public class AppDbContext : IdentityDbContext<User,
                                               RoleClaim,
                                               UserToken>
 {
-  public AppDbContext(DbContextOptions<AppDbContext> options)
+  public MyTemplateDbContext(DbContextOptions<MyTemplateDbContext> options)
       : base(options)
   {
   }
