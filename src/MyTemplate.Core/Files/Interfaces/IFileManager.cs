@@ -1,10 +1,11 @@
-using MyTemplate.Core.Files.Models;
+using ExtCore.FileStorage.Abstractions;
 
 namespace MyTemplate.Core.Files.Interfaces;
 
 public interface IFileManager
 {
-  Task<string> SaveFileAsync(Stream fileStream);
-  Task<string> UpdateFileAsync(Stream fileStream, string oldFileName);
-  Task<FileQueryResponse> GetFile(string fileName);
+  Task SaveFileAsync(Stream fileStream, string directoryName, string fileName);
+  Task UpdateFileAsync(Stream fileStream, string oldFileName, string directoryName, string newFileName);
+  Task<IFileProxy> GetFile(string directoryName, string fileName);
+  string GetContentType(string fileName);
 }

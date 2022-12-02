@@ -17,4 +17,9 @@
   <ItemGroup>
     <ProjectReference Include="..\MyTemplate.SharedKernel\MyTemplate.SharedKernel.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ExtCore.FileStorage.Abstractions">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\extcore.filestorage.abstractions\7.0.1\lib\netstandard2.0\ExtCore.FileStorage.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
