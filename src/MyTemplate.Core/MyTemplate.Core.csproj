@@ -1,18 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.1.3" />
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Ardalis.Specification" />
-    <PackageReference Include="Autofac" />
-    <PackageReference Include="MediatR" />
-    <PackageReference Include="Mapster" />
-    <PackageReference Include="FluentValidation" />
-    <PackageReference Include="LanguageExt.Core" />
-    <PackageReference Include="Kiro.Result" />
+    <PackageReference Include="Ardalis.Specification" Version="6.1.0"/>
+    <PackageReference Include="Autofac" Version="6.0.0"/>
+    <PackageReference Include="MediatR" Version="11.1.0"/>
+    <PackageReference Include="Mapster" Version="7.3.0"/>
+    <PackageReference Include="FluentValidation" Version="11.4.0"/>
+    <PackageReference Include="LanguageExt.Core" Version="4.4.0"/>
+    <PackageReference Include="Kiro.Result" Version="1.2.0"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyTemplate.SharedKernel\MyTemplate.SharedKernel.csproj" />

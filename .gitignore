@@ -9,3 +9,6 @@
 /src/MyTemplate.Core/bin
 /src/MyTemplate.Core/obj
 /.idea
+/src/MyTemplate.Domain/obj
+/src/MyTemplate.Application/bin
+/src/MyTemplate.Application/obj
