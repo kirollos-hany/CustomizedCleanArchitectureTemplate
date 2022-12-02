@@ -1,5 +1,5 @@
-using MyTemplate.Core.Files.Interfaces;
 using ExtCore.FileStorage.Abstractions;
+using MyTemplate.Application.Interfaces.IO;
 
 namespace MyTemplate.Infrastructure.IO;
 

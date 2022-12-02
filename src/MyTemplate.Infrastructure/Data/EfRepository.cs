@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
-using MyTemplate.Core.Persistence.Interfaces;
+using MyTemplate.Application.Interfaces.Persistence;
+using MyTemplate.Domain.Common.Interfaces;
 
 namespace MyTemplate.Infrastructure.Data;
 

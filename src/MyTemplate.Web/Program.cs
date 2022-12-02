@@ -3,23 +3,23 @@ using Ardalis.ListStartupServices;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ExtCore.FileStorage;
-using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MyTemplate.Core;
+using MyTemplate.Application;
+using MyTemplate.Domain.Common.Entities;
+using MyTemplate.Domain.Entities.Security;
+using MyTemplate.Domain.Enums.Security;
 using MyTemplate.Infrastructure;
 using MyTemplate.Infrastructure.Data;
 using MyTemplate.Web;
 using MyTemplate.Web.Extensions;
 using MyTemplate.Web.Filters;
 using MyTemplate.Web.Middlewares;
-using MyTemplate.Web.Security.Data;
-using MyTemplate.Web.Security.Entities;
-using MyTemplate.Web.Security.Enums;
 using MyTemplate.Web.Security.Token.Configuration;
 using MyTemplate.Web.Security.Token.Providers;
 using Newtonsoft.Json.Converters;
@@ -49,7 +49,7 @@ builder.Services.AddIdentity<User, Role>(options =>
   //identity configuration goes here
 })
 .AddRoles<Role>()
-.AddEntityFrameworkStores<SecurityDbContext>()
+.AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders()
 .AddTokenProvider<JwtProvider>(nameof(LoginProviders.MyTemplate));
 
@@ -99,17 +99,10 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 #region ef core config
 var sqlServerConnection = builder.Configuration.GetConnectionString("SqlServer");
 builder.Services.AddDbContext(sqlServerConnection);
-builder.Services.AddDbContextPool<SecurityDbContext>(options => options.UseSqlServer(sqlServerConnection));
 #endregion
 
-builder.Services.AddMvc().AddFluentValidation(options =>
-{
-  options.AutomaticValidationEnabled = false;
-  options.ImplicitlyValidateRootCollectionElements = true;
-  options.ImplicitlyValidateChildProperties = true;
-  options.RegisterValidatorsFromAssemblyContaining<DefaultCoreModule>();
-  options.RegisterValidatorsFromAssemblyContaining<WebModule>();
-});
+builder.Services.AddValidatorsFromAssemblyContaining<DefaultApplicationModule>();
+builder.Services.AddValidatorsFromAssemblyContaining<WebModule>();
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new StringEnumConverter()));
 builder.Services.AddControllersWithViews().AddNewtonsoftJson();
@@ -133,7 +126,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
   containerBuilder.RegisterModule(new DefaultInfrastructureModule(builder.Environment.EnvironmentName == "Development"));
-  containerBuilder.RegisterModule(new DefaultCoreModule());
+  containerBuilder.RegisterModule(new DefaultApplicationModule());
   containerBuilder.RegisterModule(new WebModule());
 });
 

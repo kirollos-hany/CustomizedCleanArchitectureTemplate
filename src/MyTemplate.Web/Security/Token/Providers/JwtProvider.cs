@@ -4,8 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using MyTemplate.Web.Security.Entities;
-using MyTemplate.Web.Security.Enums;
+using MyTemplate.Domain.Common.Entities;
+using MyTemplate.Domain.Enums.Security;
 using MyTemplate.Web.Security.Token.Configuration;
 
 namespace MyTemplate.Web.Security.Token.Providers;

@@ -1,4 +1,4 @@
-namespace MyTemplate.Core.Files.Models;
+namespace MyTemplate.Application.Interfaces.IO;
 
 public class FileModel
 {

@@ -1,5 +1,5 @@
 using FluentValidation;
-using MyTemplate.Core.Models;
+using MyTemplate.Application.ApiModels;
 
 namespace MyTemplate.Web.Middlewares;
 

@@ -1,10 +1,10 @@
 using FluentValidation;
 using MediatR;
 
-namespace MyTemplate.Core.Pipelines;
+namespace MyTemplate.Application.Pipelines;
+
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 where TRequest : IRequest<TResponse>
-
 {
   private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -28,5 +28,3 @@ where TRequest : IRequest<TResponse>
     return await next();
   }
 }
-
-

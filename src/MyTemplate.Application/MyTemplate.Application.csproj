@@ -7,8 +7,11 @@
   </PropertyGroup>
 
 <ItemGroup>
-<PackageReference Include="ExtCore.FileStorage.FileSystem"  Version="7.1.3"/>
-<PackageReference Include="Ardalis.Specification" Version="6.1.0"/>
+    <PackageReference Include="ExtCore.FileStorage.FileSystem"  Version="7.1.3"/>
+    <PackageReference Include="Ardalis.Specification" Version="6.1.0"/>
+    <PackageReference Include="MediatR" Version="11.1.0"/>
+    <PackageReference Include="FluentValidation" Version="11.4.0"/>
+    <PackageReference Include="Autofac" Version="6.0.0" />
 </ItemGroup>
 
 <ItemGroup>

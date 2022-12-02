@@ -1,15 +1,15 @@
 ﻿using System.Reflection;
 using Autofac;
-using MyTemplate.Core;
-using MyTemplate.Core.Files.Interfaces;
 using MyTemplate.Infrastructure.Data;
 using MyTemplate.Infrastructure.IO;
-using MyTemplate.Core.Persistence.Interfaces;
 using ExtCore.FileStorage.Abstractions;
 using ExtCore.FileStorage.FileSystem;
 using MediatR;
 using MediatR.Pipeline;
 using Module = Autofac.Module;
+using MyTemplate.Application;
+using MyTemplate.Application.Interfaces.Persistence;
+using MyTemplate.Application.Interfaces.IO;
 
 namespace MyTemplate.Infrastructure;
 
@@ -21,7 +21,7 @@ public class DefaultInfrastructureModule : Module
   public DefaultInfrastructureModule(bool isDevelopment, Assembly? callingAssembly = null)
   {
     _isDevelopment = isDevelopment;
-    var coreAssembly = Assembly.GetAssembly(typeof(DefaultCoreModule));
+    var coreAssembly = Assembly.GetAssembly(typeof(DefaultApplicationModule));
     var infrastructureAssembly = Assembly.GetAssembly(typeof(DefaultInfrastructureModule));
     if (coreAssembly != null)
     {
@@ -67,7 +67,7 @@ public class DefaultInfrastructureModule : Module
       .InstancePerDependency();
 
     builder.RegisterType<FileExtensionContentTypeProvider>()
-      .As<IContentTypeProvider>()
+      .As<Application.Interfaces.IO.IContentTypeProvider>()
       .InstancePerDependency();
 
     builder.RegisterType<FileManager>()

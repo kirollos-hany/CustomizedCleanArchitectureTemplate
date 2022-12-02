@@ -1,4 +1,4 @@
-namespace MyTemplate.Domain.Interfaces.IO;
+namespace MyTemplate.Application.Interfaces.IO;
 
 public interface IContentTypeProvider
 {

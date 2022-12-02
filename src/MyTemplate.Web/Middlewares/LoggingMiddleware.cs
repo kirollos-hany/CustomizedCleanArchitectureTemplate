@@ -1,6 +1,6 @@
 using System.Security.Claims;
-using MyTemplate.Web.Security.Entities;
 using Microsoft.AspNetCore.Identity;
+using MyTemplate.Domain.Common.Entities;
 
 namespace MyTemplate.Web.Middlewares;
 

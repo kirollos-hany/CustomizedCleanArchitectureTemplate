@@ -1,4 +1,4 @@
-namespace MyTemplate.Core.Models;
+namespace MyTemplate.Application.ApiModels;
 
 public class ActionResponse
 {

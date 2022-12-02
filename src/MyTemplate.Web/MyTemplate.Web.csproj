@@ -9,26 +9,28 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1"/>
-    <PackageReference Include="Ardalis.ListStartupServices" Version="1.1.0"/>
-    <PackageReference Include="MediatR" Version="11.1.0"/>
+    <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
+    <PackageReference Include="Ardalis.ListStartupServices" Version="1.1.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" PrivateAssets="all" Version="6.0.11"/>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" PrivateAssets="All" Version="6.0.5"/>
-    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
-    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0"/>
-    <PackageReference Include="NETStandard.Library" Version="2.0.3"/>
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11"/>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2"/>
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" PrivateAssets="all" Version="6.0.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" PrivateAssets="All" Version="6.0.5" />
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\MyTemplate.Infrastructure\MyTemplate.Infrastructure.csproj" />
-    <ProjectReference Include="..\MyTemplate.Core\MyTemplate.Core.csproj"/>
+    <ProjectReference Include="..\MyTemplate.Core\MyTemplate.Core.csproj" />
+    <ProjectReference Include="..\MyTemplate.Application\MyTemplate.Application.csproj" />
   </ItemGroup>
   
 </Project>
