@@ -10,7 +10,7 @@ public interface IContentTypeProvider
   /// <returns>True if MIME type could be determined</returns>
   bool TryGetContentType(string subpath, out string contentType);
 }
-public class FileExtensionContentTypeProvider : IContentTypeProvider
+public class FileExtensionContentTypeProvider : Application.Interfaces.IO.IContentTypeProvider
 {
   #region Extension mapping table
   /// <summary>
